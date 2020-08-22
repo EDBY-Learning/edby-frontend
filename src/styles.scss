@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+//@import '~bootstarp/dist/css/bootstrap.min.css'
+@import "../node_modules/ag-grid-community/src/styles/ag-grid.scss";
+@import "../node_modules/ag-grid-community/src/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin.scss";
+
+.ag-theme-alpine {
+    @include ag-theme-alpine();
+}
+
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+input{
+    font-weight: 500 !important;
+    color: black !important;
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+    font-weight: normal !important;
+ }
+ :-moz-placeholder {
+    font-style: italic;  
+    font-weight: normal !important;
+ }
+ ::-moz-placeholder {
+    font-style: italic;  
+    font-weight: normal !important;
+ }
+ :-ms-input-placeholder {  
+    font-style: italic; 
+    font-weight: normal !important;
+ }
+ :-o-input-placeholder {
+    font-style: italic; 
+    font-weight: normal !important;
+} 
+:-ms-input-placeholder {
+    font-style: italic; 
+    font-weight: normal !important;
+} 
+
+.required-input{
+    color:red;
+}

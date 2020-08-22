@@ -1,0 +1,27 @@
+<h4>{{studentDetail?.summary.student_name}} </h4>
+<h5>Roll : {{studentDetail?.summary.roll_number}}</h5>
+<em>Parent's Number : {{studentDetail?.summary.parent_mob_no}}</em>
+<div class="row">
+    <div class="col-12 col-md-10 col-lg-6" >
+        <div class="chart-wrapper">
+            <canvas baseChart
+            [datasets]="radarChartData"
+            [options]="radarChartOptions"
+            [labels]="radarChartLabels"
+            [chartType]="radarChartType">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-12 col-md-10 col-lg-6" >
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [datasets]="mixedBarChartData"
+            [labels]="mixedBarChartLabels"
+            [options]="mixedBarChartOptions"
+            [plugins]="mixedBarChartPlugins"
+            [legend]="mixedBarChartLegend"
+            [chartType]="mixedBarChartType">
+        </canvas>
+        </div>
+    </div>
+</div>

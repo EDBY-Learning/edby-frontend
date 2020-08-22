@@ -1,0 +1,111 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h2 *ngIf="studentData">Update details for a Student</h2>
+                <h2 *ngIf="!studentData">Fill details for a New Student</h2>
+                <br>
+                <form  class="col s12 white"  [formGroup]="studentForm" (ngSubmit)="OnSubmit()">
+                    <div class="form-group">
+                        <label class="required-input">Name*</label>
+                        <em *ngIf="studentForm.controls.name?.invalid && (studentForm.controls.name?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="name" formControlName="name" placeholder="Name">
+                    </div>
+                    <div class="form-group" [ngClass]="{'error': studentForm.controls.parent_mob_no_1?.invalid && studentForm.controls.parent_mob_no_1?.dirty}">
+                        <label class="required-input">Parent Mobile Number 1*</label>
+                        <em *ngIf="studentForm.controls.parent_mob_no_1?.invalid && (studentForm.controls.parent_mob_no_1?.touched)">Required(10 Digit number)</em>
+                        <input class="form-control validate" type="text" name="parent_mob_no_1" formControlName="parent_mob_no_1"  placeholder="Parent Primary Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="required-input">Roll*</label>
+                        <em *ngIf="studentForm.controls.roll?.invalid && (studentForm.controls.roll?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="roll" formControlName="roll" placeholder="Roll Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="required-input">Class Name*</label>
+                        <em *ngIf="studentForm.controls.class_name?.invalid && (studentForm.controls.class_name?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="class_name" formControlName="class_name" placeholder="Class Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="required-input">Section*</label>
+                        <em *ngIf="studentForm.controls.section?.invalid && (studentForm.controls.section?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="section" formControlName="section" placeholder="Section">
+                    </div>
+                    <div class="form-group">
+                        <label class="required-input">Class Teacher Name*</label>
+                        <em *ngIf="studentForm.controls.class_teacher?.invalid && (studentForm.controls.class_teacher?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="class_teacher" formControlName="class_teacher" placeholder="Teacher Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Student Email</label>
+                        <em *ngIf="studentForm.controls.email?.invalid && (studentForm.controls.email?.touched)">abc@xyz.com</em>
+                        <input class="form-control validate" type="text" name="email" formControlName="email" placeholder="Student Email">
+                    </div>
+                    <div class="form-group" [ngClass]="{'error': studentForm.controls.mob_no?.invalid && studentForm.controls.mob_no?.dirty}">
+                        <label>Student Mobile Number</label>
+                        <em *ngIf="studentForm.controls.mob_no?.invalid && (studentForm.controls.mob_no?.touched)">10 Digit number</em>
+                        <input class="form-control validate" type="text" name="mob_no" formControlName="mob_no"  placeholder="Student Number">
+                    </div>
+
+                    
+                    <div class="form-group" [ngClass]="{'error': studentForm.controls.parent_mob_no_2?.invalid && studentForm.controls.parent_mob_no_2?.dirty}">
+                        <label>Parent Mobile Number 2</label>
+                        <em *ngIf="studentForm.controls.parent_mob_no_2?.invalid && (studentForm.controls.parent_mob_no_2?.touched)">Required(10 Digit number)</em>
+                        <input class="form-control validate" type="text" name="parent_mob_no_2" formControlName="parent_mob_no_2"  placeholder="Parent Secondary Number">
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Email</label>
+                        <em *ngIf="studentForm.controls.parent_email?.invalid && (studentForm.controls.parent_email?.touched)">abc@xyz.com</em>
+                        <input class="form-control validate" type="text" name="parent_email" formControlName="parent_email" placeholder="parent Email">
+                    </div>
+
+                    
+                   
+                    
+
+                    <div class="form-group">
+                        <label>Address</label>
+                        <em *ngIf="studentForm.controls.addr?.invalid && (studentForm.controls.addr?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="addr" formControlName="addr" placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <em *ngIf="studentForm.controls.city?.invalid && (studentForm.controls.city?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="city" formControlName="city" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <em *ngIf="studentForm.controls.state?.invalid && (studentForm.controls.state?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="state" formControlName="state" placeholder="State">
+                    </div>
+                    <div class="form-group">
+                        <label>Nation</label>
+                        <em *ngIf="studentForm.controls.nation?.invalid && (studentForm.controls.nation?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="nation" formControlName="nation" placeholder="Nation">
+                    </div>
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <em *ngIf="studentForm.controls.pincode?.invalid && (studentForm.controls.pincode?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="pincode" formControlName="pincode" placeholder="Pincode">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-6">
+                            <button *ngIf="studentData" [disabled]="!studentForm.valid  || !studentForm.dirty" type="submit" class="btn btn-primary">Update</button>
+                            <button *ngIf="!studentData" [disabled]="!studentForm.valid  || !studentForm.dirty" type="submit" class="btn btn-primary">Create Student</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-md-6 col-6">
+                    </div>
+                    <div class="col-md-6 col-6">
+                        <button *ngIf="!studentData" (click)="resetForm()" class="btn btn-danger">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

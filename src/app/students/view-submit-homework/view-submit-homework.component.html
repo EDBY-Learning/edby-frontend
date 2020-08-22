@@ -1,0 +1,63 @@
+<div class="row">
+    <div  class="col-12 col-sm-3 col-md-1">
+        <button (click)="goback()" class="btn btn-warning">
+            <i class="fas fa-backward"></i>
+        </button>
+    </div>
+</div>
+<hr>
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">Last Date</th>
+                <th scope="col">Max Marks</th>
+                <th scope="col">Download</th>
+                <th scope="col">Submit Homework</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let work of homeworkList; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ work.homework_name }} </td>
+                <td class="tablecell">{{ work.start_time | date:'short' }}</td>
+                <td class="tablecell">{{ work.end_time  | date:'short' }}</td>
+                <td class="tablecell">{{ work.maximum_marks }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-info"  (click)="downloadHomework(work)">
+                        Download
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-primary" *ngIf="!work.is_submitted" (click)="selectHomework(work)">
+                        Submit
+                    </button>
+                    <button class="btn btn-secondary" *ngIf="work.is_submitted" (click)="selectHomework(work)">
+                        Update
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" *ngIf="selectedHomework">
+
+    <div class="card" style="width: 25rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{selectedHomework.homework_name}}</h5>
+            <p class="card-text">{{selectedHomework.description}}</p>
+            <div class="col">
+                <input type="file" id="file" (change)="handleFileInput($event.target.files)" placeholder="Upload File">
+            </div>
+            <div class="col">
+                <button [disabled]="!hasFileSelected" class="btn btn-primary" (click)="submitHomework()">   Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+

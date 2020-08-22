@@ -1,0 +1,183 @@
+
+<div class="row">
+    <div  class="col-12 col-md-4">
+        <a [ngClass]="selectedbar==2? 'active':''" (click)="setSelection(2)" class="list-group-item list-group-item-action list-group-item-success">
+            Notice Board
+        </a> 
+    </div>
+    <div  *ngIf="type_=='class_teacher' || type_=='authority'" class="col-12 col-md-4">
+            <a [ngClass]="selectedbar==0? 'active':''"  (click)="setSelection(0)" class="list-group-item list-group-item-action list-group-item-warning">
+                Create New Notice
+            </a>
+    </div>
+    <div  *ngIf="type_=='class_teacher' || type_=='authority'" class="col-12 col-md-4">
+            <a [ngClass]="selectedbar==1? 'active':''"  (click)="setSelection(1)" class="list-group-item list-group-item-action list-group-item-danger">
+                Notice Issued By You
+            </a> 
+    </div>
+    
+</div>
+<hr>
+
+
+
+
+<div *ngIf="selectedbar==1 && (type_=='class_teacher' || type_=='authority')">
+    <h4>Notice Issued By You</h4>
+
+<div class="row">
+    <div *ngFor="let notice of noticeIssued; let i = index" class="col-12 col-sm-12 col-md-6 col-lg-4">
+        <div>
+            <div class="card bg-light mb-3" style="max-width: 30rem;">
+                <div class="card-header" style="text-align: center;"> <strong>{{notice.notice_heading}} ({{notice.issue_dt | date:'mediumDate'}})</strong>  </div>
+                <div class="card-body">
+                <p class="card-text">{{notice.notice_text}}</p>  
+                <ul *ngIf="notice.notice_file!=''" class="list-group" id="list-tab" role="tablist">
+                    <a (click)="downloadFile(notice)"  class="list-group-item list-group-item-action list-group-item-info">
+                        File
+                    </a> 
+                                       
+                </ul>
+                </div>
+                <div  class="card-footer text muted">
+                    <div *ngIf="!notice.is_published" class="row">
+                        <div class="col-12 col-md-4">
+                            <a  (click)="publishNotice(notice,i)" class="list-group-item list-group-item-action list-group-item-secondary">
+                                <i class="fa fa-upload"></i>
+                            </a>
+                        </div>
+                        <div  class="col-12 col-md-4">
+                            <a (click)="editNotice(notice,i)" class="list-group-item list-group-item-action list-group-item-danger">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="col-12 col-md-4">
+                            <a (click)="deleteNotice(notice,i)" class="list-group-item list-group-item-action list-group-item-warning">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>  
+                    <div *ngIf="notice.is_published" class="row">
+                        <div  class="col-12 col-md-12">
+                            <a  class="list-group-item list-group-item-action list-group-item-secondary">
+                                Published
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted">
+                   By: {{notice.issuer_name}} ({{notice.issuer_designation}})
+                </div>
+            </div>
+          </div>
+    </div>
+  </div>
+  <hr>
+</div>
+
+<div *ngIf="selectedbar==2">
+    <h4>Notice Board</h4>
+
+<div class="row">
+    <div *ngFor="let notice of noticeList; let i = index" class="col-12 col-sm-12 col-md-6 col-lg-4">
+      <div>
+        <div class="card bg-light mb-3" style="max-width: 30rem;">
+            <div class="card-header" style="text-align: center;"> <strong>{{notice.notice_heading}} ({{notice.issue_dt | date:'mediumDate'}})</strong>  </div>
+            <div class="card-body">
+            <p class="card-text">{{notice.notice_text}}</p>  
+            <ul *ngIf="notice.notice_file!=''" class="list-group" id="list-tab" role="tablist">
+                <a (click)="downloadFile(notice)"  class="list-group-item list-group-item-action list-group-item-info">
+                    File
+                </a> 
+            </ul>
+            </div>
+            <div class="card-footer text-muted">
+                By: {{notice.issuer_name}} ({{notice.issuer_designation}})
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="selectedbar==0 && (type_=='class_teacher' || type_=='authority')">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <div class="row">
+                    <div class="col-12 col-md-7">
+                        <h4>Create/Edit Notice</h4>
+                    </div>
+                    <div class="col-12 col-md-5">
+                        <button *ngIf="noticeForm.value.notice_id" (click)="resetForm()" class="btn btn-warning"> Reset Form </button>
+                    </div>
+                </div>
+                <br>
+                <form  class="col s12 white"  [formGroup]="noticeForm" (ngSubmit)="createNotice()">
+                    <div class="row">
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Notice Heading</label>
+                                <em *ngIf="noticeForm.controls.notice_heading?.invalid && (noticeForm.controls.notice_heading?.touched)">Required</em>
+                                <input class="form-control validate" type="text" name="notice_heading" formControlName="notice_heading" placeholder="Heading">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Body</label>
+                                <em *ngIf="noticeForm.controls.notice_text?.invalid && (noticeForm.controls.notice_text?.touched)">Required</em>
+                                <textarea class="form-control validate" type="text" name="notice_text" formControlName="notice_text" placeholder="Body" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Notice For</label>
+                                <em *ngIf="noticeForm.controls.category_description?.invalid && (noticeForm.controls.category_description?.touched)">Required</em>
+                                <select formControlName="category_description">
+                                    <option *ngFor="let prf of targetAudience" [ngValue]="prf.value">
+                                     {{ prf.show }}
+                                    </option>
+                                  </select> 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <label>File</label>
+                                <em *ngIf="noticeForm.controls.notice_file?.invalid && (noticeForm.controls.notice_file?.touched)">Required</em>
+                                <input #myFileInput class="form-control custom-file-input validate" id="validatedCustomFile" type="file" name="notice_file" (change)="handleFileInput($event.target.files)" formControlName="notice_file">
+                                <label *ngIf="!fileSelected" class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                <label *ngIf="fileSelected" class="custom-file-label" for="validatedCustomFile">{{fileSelected}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <a (click)="removeFile()"  class="list-group-item list-group-item-action list-group-item-secondary">
+                                Remove File
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button *ngIf="!noticeForm.value.notice_id" [disabled]="!noticeForm.valid || !noticeForm.dirty" type="submit"  class="btn btn-primary">Create Notice</button>
+                        </div>
+                    </div>
+
+                </form>
+                <div class="row">
+                    <button *ngIf="noticeForm.value.notice_id" (click)="updateNotice()" [disabled]="!noticeForm.valid || !noticeForm.dirty" type="submit"  class="btn btn-primary">Update Notice</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+  

@@ -1,0 +1,54 @@
+<h3>Your Schedule!</h3>
+<div class="row">
+  <div class="col-12 col-sm-12 col-md-12">
+    <ngb-alert type="info" *ngIf="staticAlert" (close)="staticAlert = false">
+      <strong>Help!</strong> Click on Subject to open link of class.
+    </ngb-alert>
+  </div>
+  <div class="col-12 col-sm-12 col-md-12">
+    <ngb-alert type="info" *ngIf="staticAlert2" (close)="staticAlert2 = false">
+      <strong>Help!</strong> To set custom link for subjects go to subjects tab
+    </ngb-alert>
+  </div>
+  <!--<div class="col-4 col-md-3">
+    <button (click)="setCustomLink()" class="btn btn-primary">Set custom link for class</button>
+  </div>-->
+  <div class="col-4 col-md-3">
+    <button (click)="refresh()" type="button" class="float-right btn btn-success">Refresh Table</button>
+  </div>
+  
+</div>
+
+<div class="container-fluid" >
+    
+    <table *ngIf="numPeriod!=0" class="table  table-responsive ">
+        <thead>
+          <tr>
+            <th scope="col">Days</th>
+            <th scope="col" *ngFor='let per of periods|slice:0:numPeriod'>
+              {{per}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor='let day of Object.keys(timetable);'>
+            <th scope="row">{{day}}</th>
+            <td *ngFor="let per of periods|slice:0:numPeriod; let i = index;">
+                
+              <button [ngbTooltip]="tipContent" tooltipClass="my-custom-class" 
+                        (mouseover)="setToolTip(timetable[day][i])" 
+                        *ngIf="timetable[day][i]?.class_name?.length!=0" 
+                        (click)="openLink(timetable[day][i].link)"
+                        type="button" class="btn btn-light">
+                        {{timetable[day][i].class_name}}-{{timetable[day][i].section}}({{timetable[day][i].subject}})
+                </button>
+                
+              <button *ngIf="timetable[day][i]?.class_name?.length==0" 
+                        type="button" class="btn btn-secondary">
+                  Free
+                </button>
+            </td>
+          </tr>              
+        </tbody>
+      </table>
+</div>

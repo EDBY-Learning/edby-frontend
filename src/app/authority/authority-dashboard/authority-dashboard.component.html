@@ -1,0 +1,124 @@
+<h3>Overall Performance</h3>
+
+<div class="row">
+    <div style="border: 2px solid black; margin: 3px;" class="col-12 col-md-4">
+        <label>Total School Attendence : </label>
+        <strong>{{basicDashboardData?.summary.total_attendance}}/{{basicDashboardData?.summary.school_strength}}</strong>
+        
+    </div>
+    <div style="margin: 3px;" class="col-12 col-md-4">
+        <label>Select Class</label>
+        <select (change)="getClassDetail()" style="float: center;" name="select" id="select" [(ngModel)]="class_id">
+            <option  [selected]="class_id==sub.class_id" *ngFor="let sub of class_list" [value]="sub.class_id">{{sub?.class_name}} - {{sub?.section}}</option>
+        </select>
+    </div>
+    <div style="border: 2px solid black;  margin: 3px;" class="col-12 col-md-3">
+        <label>Class Teacher : </label>
+        {{classDetail?.summary.class_teacher}}
+    </div>
+</div>
+
+<hr class="mt-2 mb-3">
+<h5>Class Summary</h5>
+<div class="row">
+    <div class="col-12 col-md-6" >
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
+    </div>
+    <div class="col-12 col-md-6" >
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [datasets]="mixedBarChartData"
+            [labels]="mixedBarChartLabels"
+            [options]="mixedBarChartOptions"
+            [plugins]="mixedBarChartPlugins"
+            [legend]="mixedBarChartLegend"
+            [chartType]="mixedBarChartType">
+          </canvas>
+        </div>
+    </div>
+</div>
+<hr class="mt-2 mb-3">
+<h5>Student Details</h5>
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Roll</th>
+                <th scope="col">Overall Attentiveness</th>
+                <th scope="col">Overall Performance</th>
+                <th scope="col">View Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let stud of classDetail?.student_list; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ stud.student_name }} </td>
+                <td class="tablecell">{{ stud.roll_number }}</td>
+                <td class="tablecell">{{ stud.attentiveness }}</td>
+                <td class="tablecell">{{ stud.performance }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-primary"  (click)="getStudentData(stud,content)">
+                        Detail
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Student Name: {{studentDetail?.summary.student_name}} / Roll : {{studentDetail?.summary.roll_number}}</h4>
+    </div>
+    <em>Parent's Number : {{studentDetail?.summary.parent_mob_no}}</em>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-12 col-md-10 col-lg-6" >
+                <div class="chart-wrapper">
+                    <canvas baseChart
+                    [datasets]="radarChartData"
+                    [options]="radarChartOptions"
+                    [labels]="radarChartLabels"
+                    [chartType]="radarChartType">
+                  </canvas>
+                </div>
+            </div>
+            <div class="col-12 col-md-10 col-lg-6" >
+                <div class="chart-wrapper">
+                    <canvas baseChart 
+                    [datasets]="mixedBarChartData2"
+                    [labels]="mixedBarChartLabels2"
+                    [options]="mixedBarChartOptions2"
+                    [plugins]="mixedBarChartPlugins2"
+                    [legend]="mixedBarChartLegend2"
+                    [chartType]="mixedBarChartType2">
+                </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button"  class="btn btn-danger" (click)="cancelModal(modal)">Close</button>
+    </div>
+</ng-template>
+

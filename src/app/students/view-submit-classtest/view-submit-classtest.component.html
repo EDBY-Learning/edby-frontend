@@ -1,0 +1,60 @@
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Test DateTime</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Bonus Time</th>
+                <th scope="col">Max Marks</th>
+                <th scope="col">File</th>
+                <th scope="col">Submit Answer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let test of classTestList; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ test.class_test_name }} </td>
+                <td class="tablecell">{{ test.start_time | date:'short' }}</td>
+                <td class="tablecell">{{ test.duration | formatTime }}</td>
+                <td class="tablecell">{{ test.buffer_time | formatTime  }}</td>
+                <td class="tablecell">{{ test.maximum_marks }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary"  (click)="downloadFile(test)">
+                        Start Class Test
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-primary" *ngIf="!test.is_submitted" (click)="classTestSelection(test)">
+                        Submit
+                    </button>
+                    <span *ngIf="test.is_submitted">
+                        Submitted 
+                    </span>
+                    <span *ngIf="!test.is_published">
+                        Yet to Start
+                    </span>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row" *ngIf="selectedClassTest">
+
+    <div class="card" style="width: 25rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{selectedClassTest.class_test_name}}</h5>
+            <p class="card-text">{{selectedClassTest.description}}</p>
+            <div class="col">
+                <input type="file" id="file" (change)="handleFileInput($event.target.files)" placeholder="Upload File">
+            </div>
+            <div class="col">
+                <button [disabled]="!hasFileSelected" class="btn btn-primary" (click)="classTestSubmission()">   Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+

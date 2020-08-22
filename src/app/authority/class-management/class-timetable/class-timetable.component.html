@@ -1,0 +1,49 @@
+<div *ngIf="selected_data" class="row">
+  <div class="col-12 col-md-12">
+    Link : {{selected_data.link}}
+  </div>
+  <div class="col-12 col-md-12">
+    Password : {{selected_data.password}}
+  </div>
+  <div class="col-12 col-md-12">    
+    Description : {{selected_data.description}}
+  </div>
+  
+</div>
+
+<div class="modal-body">
+    <div class="container-fluid" >
+      <table class="table  table-responsive ">
+          <thead>
+            <tr>
+              <th scope="col">Days</th>
+              <th scope="col" *ngFor='let per of periods|slice:0:numPeriod'>
+                {{per}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  *ngFor='let day of Object.keys(timetable);'>
+              <th scope="row">{{day}}</th>
+              <td *ngFor="let per of periods|slice:0:numPeriod; let i = index;">
+                <button [ngbTooltip]="tipContent" tooltipClass="my-custom-class" 
+                        (mouseover)="setToolTip(timetable[day][i])" 
+                        *ngIf="timetable[day][i]?.subject" 
+                        (click)="openLink(timetable[day][i])"
+                        type="button" class="btn btn-secondary">
+                        {{timetable[day][i].subject}}
+                </button>
+                
+              <span *ngIf="!timetable[day][i]?.subject">
+                  Not Set
+              </span>
+                
+              </td>
+            </tr>              
+          </tbody>
+        </table>
+  </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>

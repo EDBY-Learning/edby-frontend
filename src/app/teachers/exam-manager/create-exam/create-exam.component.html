@@ -1,0 +1,59 @@
+<h4>Create/Edit Exam for {{subject_name}} : {{class_name}}-{{section}}</h4>
+<br>
+<form  class="col s12 white"  [formGroup]="quiz_form" (ngSubmit)="OnSubmit()">
+    <div class="row">
+        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+            <div class="form-group">
+                <label>Exam Name</label>
+                <em *ngIf="quiz_form.controls.quiz_heading?.invalid && (quiz_form.controls.quiz_heading?.touched)">Required</em>
+                <input class="form-control validate" type="text" name="quiz_heading" formControlName="quiz_heading" placeholder="Heading">
+            </div>
+        </div>
+        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+            <div class="form-group">
+                <label>Exam Duration(In Minutes)</label>
+                <em *ngIf="quiz_form.controls.duration?.invalid && (quiz_form.controls.duration?.touched)">Required</em>
+                <input class="form-control validate" type="number" name="duration" formControlName="duration" placeholder="Duration">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 sol-md-6 col-12 col-lg-6">
+            <div class="form-group">
+                <label>Exam Type</label>
+                <em *ngIf="quiz_form.controls.quiz_type?.invalid && (quiz_form.controls.quiz_type?.touched)">Required</em>
+                <select formControlName="quiz_type">
+                    <option *ngFor="let prf of type_of_quiz" [ngValue]="prf">
+                        {{ prf }}
+                    </option>
+                </select> 
+            </div>
+        </div>
+        <div class="col-sm-6 sol-md-6 col-12 col-lg-6">
+            <div class="form-group">
+                <label>Normalized Marks</label>
+                <em *ngIf="quiz_form.controls.marks?.invalid && (quiz_form.controls.marks?.touched)">Required</em>
+                <input class="form-control validate" type="number" name="marks" formControlName="marks" placeholder="Normalized Marks">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        
+        <div class="col-sm-6 sol-md-6 col-12 col-lg-6">
+            <div class="form-group">
+                <label>Exam Date</label>
+                <em *ngIf="quiz_form.controls.start_dt?.invalid && (quiz_form.controls.start_dt?.touched)">Required</em>
+                <input class="form-control validate" type="datetime-local" name="start_dt" formControlName="start_dt" [min]="minDate">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12">
+            <button [disabled]="!quiz_form.valid || !quiz_form.dirty" type="submit" class="btn btn-primary">Create Exam</button>
+        </div>
+    </div>
+
+</form>

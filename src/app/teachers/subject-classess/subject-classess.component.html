@@ -1,0 +1,31 @@
+<div class="row">
+  <div *ngFor="let class of classSubjectList; let i = index" class="col-12 col-sm-12 col-md-6 col-lg-4">
+    <div>
+      <div class="card bg-light mb-3" style="max-width: 30rem;">
+          <div class="card-header" style="text-align: center;">{{class.class_name}} - {{class.section}}</div>
+          <div class="card-body">
+            <h5 class="card-title" style="text-align: center;">{{class.subject_name}}</h5>
+
+            <ul class="list-group" id="list-tab" role="tablist">
+              <a (click)="classNotes(class)" class="list-group-item list-group-item-action list-group-item-info">
+                Class Notes
+              </a> 
+              <a (click)="goToHomework(class)" class="list-group-item list-group-item-action list-group-item-secondary">
+                  Homework
+              </a>
+              <a (click)="goToExam(class)" class="list-group-item list-group-item-action list-group-item-danger">
+                Exam/Quiz
+              </a>
+              <!--<a (click)="manageClassTest(class)" class="list-group-item list-group-item-action list-group-item-success">
+                Old Class Test
+              </a>
+              <a (click)="createClassTest(class)" class="list-group-item list-group-item-action list-group-item-warning">
+                Old Create Class Test
+              </a>-->
+
+          </ul>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

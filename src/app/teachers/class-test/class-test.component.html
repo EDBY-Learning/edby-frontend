@@ -1,0 +1,115 @@
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Test Date</th>
+                <th scope="col">Time Limit</th>
+                <th scope="col">Buffer Time</th>
+                <th scope="col">Max Marks</th>
+                <th scope="col">File</th>
+                <th scope="col">Approve</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let test of classTestList; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ test.class_test_name }} </td>
+                <td class="tablecell">{{ test.start_time |date:'short'  }}</td>
+                <td class="tablecell">{{ test.duration | formatTime  }}</td>
+                <td class="tablecell">{{ test.buffer_time | formatTime}}</td>
+                <td class="tablecell">{{ test.maximum_marks }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary" [disabled]="test.class_test_file==''" (click)="downloadFile(test)">
+                        Download 
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-primary" *ngIf="!test.is_published" (click)="approveTest(test)">
+                        Start Test
+                    </button>
+                    <button class="btn btn-primary" *ngIf="test.is_published" (click)="classTestSelection(test)">
+                        Check Submission
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr class="mt-2 mb-3">
+<div class="row" *ngIf="selectedClassTest">
+    <div class="col-3">
+        <strong> Name:{{selectedClassTest.class_test_name }}</strong>
+    </div>
+    <div class="col-3">
+        <strong>Description:{{selectedClassTest.description }} </strong>
+    </div> 
+</div>
+<hr class="mt-2 mb-3">
+<div class="row" *ngIf="selectedClassTest">
+
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Start Time</th>
+                <th scope="col">Submission Time</th>
+                <th scope="col">Graded</th>
+                <th scope="col">Download File</th>
+                <th scope="col">Student Marks(Update)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let student of selectedClassTest_studentList; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ student.student_name }} </td>
+                <td class="tablecell">{{ student.start_time | date:'short' }}</td>
+                <td class="tablecell">{{ student.submission_time | date:'short' }}</td>
+                <td class="tablecell">{{ student.is_checked }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-outline-secondary" (click)="downloadStudentFile(student)">
+                        file
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-outline-primary" *ngIf="!student.marks" (click)="openMarksModal(content,student,i)">
+                        Give Marks
+                    </button>
+                    <button class="btn btn-outline-success" *ngIf="student.marks" (click)="openMarksModal(content,student,i)">
+                        {{student.marks}}
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Update Marks</h4>
+      <em class="error-template" *ngIf="(+marks)> (+selectedClassTest.maximum_marks)">marks greater than max marks</em>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <label>Student</label>
+                {{selectedStudent.name}}-{{selectedStudent.roll}}
+            </div>
+            <div class="col">
+                <label>Marks</label>
+                <input [(ngModel)]="marks" type="number"  style="text-align:center;" placeholder="Marks"/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelModal(modal)">Cancel</button>
+        <button type="button" [disabled]="!marks" class="btn btn-danger" (click)="updateMarks(modal)">Update Marks</button>
+    </div>
+</ng-template>
+

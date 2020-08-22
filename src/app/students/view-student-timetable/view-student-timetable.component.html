@@ -1,0 +1,104 @@
+<button *ngIf="service.ongoingClass" type="button" class="btn btn-danger" (click)="leaveClass()">Quit this Class to Join other Class</button>
+<div *ngIf="!service.ongoingClass" class="alert alert-info">
+  <strong>Info!</strong> Click on Subject in Timetable to join class.
+</div>
+
+<div *ngIf="link_" class="row">
+  <div class="col">
+    Link : {{link_.link}}
+  </div>
+  <div class="col">
+    Password : {{link_.Password}}
+  </div>
+  <div class="col">
+    Description : {{link_.description}}
+  </div>
+</div>
+
+<div class="container-fluid" >
+    <table class="table  table-responsive ">
+        <thead>
+          <tr>
+            <th scope="col">Days</th>
+            <th scope="col" *ngFor='let per of periods|slice:0:numPeriod'>
+              {{per}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor='let day of Object.keys(timetable);'>
+            <th scope="row">{{day}}</th>
+            <td *ngFor="let per of periods|slice:0:numPeriod; let i = index;">
+              <button [ngbTooltip]="tipContent" tooltipClass="my-custom-class" 
+                      (mouseover)="setToolTip(timetable[day][i])" 
+                      *ngIf="timetable[day][i]?.subject && !service.ongoingClass"  
+                      (click)="setLink(content,timetable[day][i])"
+                      type="button" class="btn btn-secondary">
+                      {{timetable[day][i].subject}}
+              </button>
+
+              <button [ngbTooltip]="tipContent2" tooltipClass="my-custom-class" 
+                      (mouseover)="setToolTip(timetable[day][i])" 
+                      *ngIf="timetable[day][i]?.subject && service.ongoingClass"
+                      
+                      type="button" class="btn btn-secondary">
+                      {{timetable[day][i].subject}}
+              </button>
+              
+            <span *ngIf="!timetable[day][i]?.subject">
+                Free Period
+            </span>
+              
+            </td>
+          </tr>              
+        </tbody>
+      </table>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Join Class</h4>
+    <div *ngIf="!linkData" class="alert alert-info">
+      Link Not availabel
+    </div>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        
+          You Attentiveness will be monitored throughtout the class. 
+          <br>
+          You will be asked questions in every 7-8 minutes throughtout the class.
+          <br>
+          So check this portal every 8 minutes
+        
+      </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <button type="button" class="btn btn-outline-secondary" (click)="cancelModal(modal)">Cancel</button>
+      <button type="button" [disabled]="!linkData" class="btn btn-danger" (click)="openLink(modal,content2)">Start Class</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #content2 let-modal2>
+  <div class="modal-header">
+    <h4 class="modal-title">Please Answer immediately you are losing Attendence</h4>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        <div class="col">
+          <strong> {{service.question.option1}} + {{service.question.option2}} = ? </strong>
+        </div>
+        <div class="col">
+          <input [(ngModel)]="answer" type="text"  style="text-align:center;" placeholder="Your Answer"/>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelModal(modal2)">Cancel</button>
+      <button *ngIf="this.service.question.option1+this.service.question.option2 == this.answer" type="button"  class="btn btn-danger" (click)="attendenceMark(content2,modal2)">Ok</button>
+    </div>
+  </div>
+</ng-template>

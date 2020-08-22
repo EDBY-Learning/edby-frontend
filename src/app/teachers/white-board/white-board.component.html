@@ -1,0 +1,47 @@
+
+<div *ngIf="filesToUpload.length!=0" class="row">
+    <div *ngFor="let image_ of filesToUpload; let i = index;" class="col-2">
+        <button (click)="removeImage(i)" class="btn">&#10006;</button>
+        <img (click)="selectImage(i)" src={{image_}} />
+    </div>
+    <div class="col-4">
+        <button (click)="uploadNotes(content)" class="btn btn-success">
+            Upload Notes
+        </button>
+    </div>
+</div>
+
+
+<canvas-whiteboard #canvasWhiteboard
+[imageUrl]="imageUrl"
+[options]="canvasOptions"
+[shouldDownloadDrawing]="true"
+(onBatchUpdate)="sendBatchUpdate($event)"
+(onClear)="onCanvasClear()"
+(onUndo)="onCanvasUndo($event)"
+(onRedo)="onCanvasRedo($event)"
+(onSave)="onCanvasSave($event)"
+(click)="saveCurrentData($event)">
+</canvas-whiteboard>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Select Class to upload notes</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <label>Choose Subject</label>
+                <select [(ngModel)]="subject_id">
+                  <option selected value="">Choose Subject</option>
+                  <option *ngFor="let sub of subjectList" [value]="sub.subject_id">{{sub.subject_name}} ({{sub.class_name}} - {{sub.section}})</option>
+              </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="cancelModal(modal)">Cancel</button>
+        <button type="button" [disabled]="subject_id==''" class="btn btn-danger" (click)="saveData(modal)">Ok</button>
+    </div>
+</ng-template>

@@ -1,0 +1,29 @@
+
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Exam Type</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Normalized Marks</th>
+                <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let quiz of unpublishedQuiz; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ quiz.quiz_summary.quiz_heading }} </td>
+                <td class="tablecell">{{ quiz.quiz_summary.quiz_type }}</td>
+                <td class="tablecell">{{ quiz.quiz_summary.duration | formatTime}}</td>
+                <td class="tablecell">{{ quiz.quiz_summary.normalized_marks  }}</td>
+                <td class="tablecell">{{ quiz.quiz_summary.start_dt | date:'short' }}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>

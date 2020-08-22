@@ -1,0 +1,51 @@
+<div class="row">
+    <div  class="col-12 col-sm-3 col-md-1">
+        <button (click)="goback()" class="btn btn-warning">
+            <i class="fas fa-backward"></i>
+        </button>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <a [ngClass]="selectedBarExam==0? 'active':''"  (click)="setSelection(0)" class="list-group-item list-group-item-action list-group-item-warning">
+            Create Exam
+        </a>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <a [ngClass]="selectedBarExam==1? 'active':''"  (click)="setSelection(1)" class="list-group-item list-group-item-action list-group-item-danger">
+            Unpublished Exam
+        </a> 
+    </div>
+    <div  class="col-12 col-sm-6 col-md-3">
+        <a [ngClass]="selectedBarExam==2? 'active':''" (click)="setSelection(2)" class="list-group-item list-group-item-action list-group-item-success">
+            Published Exam
+        </a> 
+    </div>
+</div>
+<hr>
+
+
+<div *ngIf="selectedBarExam==0">
+    <app-create-exam
+    [class_name]="class_name"
+    [section]="section"
+    [subject_id]="subject_id"
+    [subject_name]="subject_name"
+    ></app-create-exam>
+</div>
+
+<div *ngIf="selectedBarExam==2">
+    <app-published-exam
+    [class_name]="class_name"
+    [section]="section"
+    [subject_id]="subject_id"
+    [subject_name]="subject_name"
+    ></app-published-exam>
+</div>
+
+<div *ngIf="selectedBarExam==1">
+    <app-unpublished-exam
+    [class_name]="class_name"
+    [section]="section"
+    [subject_id]="subject_id"
+    [subject_name]="subject_name"
+    ></app-unpublished-exam>
+</div>

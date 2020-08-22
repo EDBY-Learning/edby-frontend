@@ -1,0 +1,11 @@
+.my-custom-class {
+    background-color: darkgreen;
+    font-size: 125%;
+  }
+  .my-custom-class .arrow::before {
+    border-top-color: darkgreen;
+  }
+
+input[type="text"]:disabled{
+    background-color:#79947a;
+}

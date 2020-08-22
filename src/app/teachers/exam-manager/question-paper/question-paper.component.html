@@ -1,0 +1,390 @@
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+        <a (click)="goback()" class="list-group-item list-group-item-action list-group-item-warning">
+            Go To Manage Exam
+        </a>
+    </div> 
+    <div class="col-12 col-sm-6 col-md-4">
+        <a (click)="previewPaper()" class="list-group-item list-group-item-action list-group-item-info">
+            Preview Question Paper
+        </a>
+    </div> 
+</div>
+<hr>
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+        <strong> Exam Type:</strong> {{selectedQuiz?.quiz_summary?.quiz_type}}
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <strong>Exam Name:</strong> {{selectedQuiz?.quiz_summary?.quiz_heading}}
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <strong>Duration:</strong> {{selectedQuiz?.quiz_summary?.duration | formatTime}}
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <strong>Exam Date:</strong> {{selectedQuiz?.quiz_summary?.start_dt | date}}
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <strong>Normalized Marks:</strong> {{selectedQuiz?.quiz_summary?.normalized_marks}}
+    </div>
+</div>
+<hr>
+<h5>Add New Question</h5>
+<div class="row">
+    
+    <div class="col-12 col-sm-6 col-md-4">
+        <a (click)="addQuestion('scq')" class="list-group-item list-group-item-action list-group-item-warning">
+            Single Choice
+        </a>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <a  (click)="addQuestion('mcq')" class="list-group-item list-group-item-action list-group-item-danger">
+            Multiple Choice
+        </a> 
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <a  (click)="addQuestion('T/F')" class="list-group-item list-group-item-action list-group-item-success">
+            True/False
+        </a> 
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <a  (click)="addQuestion('Fill')" class="list-group-item list-group-item-action list-group-item-secondary">
+            Fill Up
+        </a> 
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <a  (click)="addQuestion('Detail')" class="list-group-item list-group-item-action list-group-item-info">
+            Detailed Question            
+        </a> 
+    </div>
+</div>
+<hr>
+<ngb-pagination [collectionSize]="selectedQuiz?.question_list?.length*10" [(page)]="question_number" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+    <ng-template ngbPaginationPrevious>Prev</ng-template>
+    <ng-template ngbPaginationNext>Next</ng-template>
+    <!--<ng-template ngbPaginationNumber let-p>  p ({{ getQuestionType(p) }})</ng-template>-->
+
+</ngb-pagination>
+
+<div class="row"  *ngIf="selectedQuiz?.question_list?.length>0">
+    <div class="col-12 col-sm-6 col-md-4">
+        <button *ngIf="!selectedQuiz?.question_list[question_number-1]['question_id']" (click)="createQuestion(question_number)" class="btn btn-success">
+            Create Question
+        </button>
+        <button *ngIf="selectedQuiz?.question_list[question_number-1]['question_id']" (click)="updateQuestion(question_number)" class="btn btn-success">
+            Update Question
+        </button>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <button *ngIf="selectedQuiz?.question_list[question_number-1]['question_id']" (click)="deleteQuestion(question_number,'delete')" class="btn btn-danger">
+            Delete Question
+        </button>
+        <button *ngIf="!selectedQuiz?.question_list[question_number-1]['question_id']" (click)="deleteQuestion(question_number,'remove')" class="btn btn-warning">
+            Remove Question
+        </button>
+    </div>
+</div>
+<hr>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='scq'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : {{selectedQuiz?.question_list[question_number-1].number}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            <em *ngIf="!selectedQuiz?.question_list[question_number-1].marks">Required </em>
+            Marks : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].marks" style="width:70px;"/>
+        </div>
+    </div>
+    <div class="row">
+        <em *ngIf="selectedQuiz?.question_list[question_number-1].question_text==''">Please Type Question </em>
+        <textarea [(ngModel)]="selectedQuiz?.question_list[question_number-1].question_text" rows="5" style="width: 100%;" placeholder="Question Text">
+        </textarea>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <input #myFileInput class="custom-file-input"  id="file" type="file" (change)="handleFileInput($event.target.files,question_number)">
+                                <label *ngIf="!fileSelected[question_number-1]" class="custom-file-label" >Choose Question Image...</label>
+                                <label *ngIf="fileSelected[question_number-1]" class="custom-file-label">{{fileSelected[question_number-1]}}</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <button (click)="removeQuestionImage(question_number)" class="btn btn-info">
+                Remove Image
+            </button>
+        </div>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <em *ngIf="selectedQuiz?.question_list[question_number-1].option_list[0].option_text==''">Please Type Option A </em>
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[0].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option A">
+            </textarea>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <em *ngIf="selectedQuiz?.question_list[question_number-1].option_list[1].option_text==''">Please Type Option B </em>
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[1].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option B">
+            </textarea>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <em *ngIf="selectedQuiz?.question_list[question_number-1].option_list[2].option_text==''">Please Type Option C </em>
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[2].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option C">
+            </textarea>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <em *ngIf="selectedQuiz?.question_list[question_number-1].option_list[3].option_text==''">Please Type Option D </em>
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[3].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option D">
+            </textarea>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer</label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            <select style="float: center;" name="select" id="select" [(ngModel)]="selectedQuiz?.question_list[question_number-1].answer_list[0]">
+                <option [selected]="sub==selectedQuiz?.question_list[question_number-1].answer_list[0]" *ngFor="let sub of singleChoiceOption" [value]="sub">{{sub}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='mcq'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].number" style="width:70px;"/>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].marks" style="width:70px;"/>
+        </div>
+    </div>
+    <div class="row">
+        <textarea [(ngModel)]="selectedQuiz?.question_list[question_number-1].question_text" rows="5" style="width: 100%;" placeholder="Question Text">
+        </textarea>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <input #myFileInput class="custom-file-input"  id="file" type="file" (change)="handleFileInput($event.target.files,question_number)">
+                                <label *ngIf="!fileSelected[question_number-1]" class="custom-file-label" >Choose Question Image...</label>
+                                <label *ngIf="fileSelected[question_number-1]" class="custom-file-label">{{fileSelected[question_number-1]}}</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <button (click)="removeQuestionImage(question_number)" class="btn btn-info">
+                Remove Image
+            </button>
+        </div>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[0].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option A">
+            </textarea>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[1].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option B">
+            </textarea>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[2].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option C">
+            </textarea>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].option_list[3].option_text" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Option D">
+            </textarea>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer</label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            <select style="float: center; width: 100%;" name="select" id="select" [(ngModel)]="selectedQuiz?.question_list[question_number-1].answer_list">
+                <option [selected]="sub==selectedQuiz?.question_list[question_number-1].answer_list" *ngFor="let sub of multipleChoiceOption" [value]="sub">{{sub}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='T/F'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].number" style="width:70px;"/>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].marks" style="width:70px;"/>
+        </div>
+    </div>
+    <div class="row">
+        <textarea [(ngModel)]="selectedQuiz?.question_list[question_number-1].question_text" rows="5" style="width: 100%;" placeholder="Question Text">
+        </textarea>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <input #myFileInput class="custom-file-input"  id="file" type="file" (change)="handleFileInput($event.target.files,question_number)">
+                                <label *ngIf="!fileSelected[question_number-1]" class="custom-file-label" >Choose Question Image...</label>
+                                <label *ngIf="fileSelected[question_number-1]" class="custom-file-label">{{fileSelected[question_number-1]}}</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <button (click)="removeQuestionImage(question_number)" class="btn btn-info">
+                Remove Image
+            </button>
+        </div>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer</label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            <select style="float: center;" name="select" id="select" [(ngModel)]="selectedQuiz?.question_list[question_number-1].answer_list[0]">
+                <option [selected]="sub==selectedQuiz?.question_list[question_number-1].answer_list[0]" *ngFor="let sub of ['True','False']" [value]="sub">{{sub}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='Fill'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].number" style="width:70px;"/>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].marks" style="width:70px;"/>
+        </div>
+    </div>
+    <div class="row">
+        <textarea [(ngModel)]="selectedQuiz?.question_list[question_number-1].question_text" rows="5" style="width: 100%;" placeholder="Question Text">
+        </textarea>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <input #myFileInput class="custom-file-input"  id="file" type="file" (change)="handleFileInput($event.target.files,question_number)">
+                                <label *ngIf="!fileSelected[question_number-1]" class="custom-file-label" >Choose Question Image...</label>
+                                <label *ngIf="fileSelected[question_number-1]" class="custom-file-label">{{fileSelected[question_number-1]}}</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <button (click)="removeQuestionImage(question_number)" class="btn btn-info">
+                Remove Image
+            </button>
+        </div>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer</label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            <input type="text"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].answer_list[0]" style="width:100%;"/>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='Detail'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].number" style="width:70px;"/>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : <input type="number"  [(ngModel)]="selectedQuiz?.question_list[question_number-1].marks" style="width:70px;"/>
+        </div>
+    </div>
+    <div class="row">
+        <textarea [(ngModel)]="selectedQuiz?.question_list[question_number-1].question_text" rows="5" style="width: 100%;" placeholder="Question Text">
+        </textarea>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <input #myFileInput class="custom-file-input"  id="file" type="file" (change)="handleFileInput($event.target.files,question_number)">
+                                <label *ngIf="!fileSelected[question_number-1]" class="custom-file-label" >Choose Question Image...</label>
+                                <label *ngIf="fileSelected[question_number-1]" class="custom-file-label">{{fileSelected[question_number-1]}}</label>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            <button (click)="removeQuestionImage(question_number)" class="btn btn-info">
+                Remove Image
+            </button>
+        </div>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-4 col-sm-4 col-md-4">
+            <label>Answer</label>
+        </div>
+        <div class="col-8 col-sm-8 col-md-8">
+            <textarea 
+            [(ngModel)]="selectedQuiz?.question_list[question_number-1].answer_list[0]" 
+            rows="5" 
+            style="width: 100%;" 
+            placeholder="Answer (Not Required)">
+            </textarea>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<ngb-alert *ngIf="staticAlert" (close)="staticAlert = false;">Wrong Input :: {{error}}</ngb-alert>
+<div  class="row">
+    <div class="col-8">
+      <h4 class="modal-title">Update/Fill Slots</h4>
+    </div>
+    <div class="col-4">
+      <button (click)="refresh()" type="button" class="float-right btn btn-success">Refresh Data</button>
+    </div>
+</div>
+
+<div class="row">
+    <label>Number of Periods</label>
+    <input [(ngModel)]="numPeriods" (click)="changeError()" type="number" min="1" max="12" style="text-align:center;" />
+</div>
+
+
+<table *ngIf="numPeriods" class="table table-responsive ">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col" *ngFor='let per of periods|slice:0:numPeriods'>
+          {{per}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Start Time</th>
+        <td *ngFor="let per of periods|slice:0:numPeriods; let i = index;">
+            <input [(ngModel)]="startTiming[i]" type="time" (click)="changeError()" style="text-align:center;" placeholder="HH:MM PM/AM(24 hour clock)"/>
+        </td>
+      </tr>
+      <tr >
+        <th scope="row">End Time</th>
+        <td *ngFor="let per of periods|slice:0:numPeriods; let i = index;">
+            <input [(ngModel)]="endTiming[i]" type="time" (click)="changeError()" style="text-align:center;" placeholder="HH:MM PM/AM(24 hour clock)"/>
+        </td>
+      </tr>              
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-danger" (click)="saveData()">Update</button>

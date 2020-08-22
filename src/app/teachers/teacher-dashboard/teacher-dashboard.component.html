@@ -1,0 +1,317 @@
+<div *ngIf="type_=='class_teacher'">
+    <h3>Class Summary</h3>
+    <div class="row">
+        <div class="col-12 col-md-6" >
+            <div class="chart-wrapper">
+                <canvas baseChart 
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+            </canvas>
+            </div>
+        </div>
+        <div class="col-12 col-md-6" >
+            <div class="chart-wrapper">
+                <canvas baseChart 
+                [datasets]="mixedBarChartData"
+                [labels]="mixedBarChartLabels"
+                [options]="mixedBarChartOptions"
+                [plugins]="mixedBarChartPlugins"
+                [legend]="mixedBarChartLegend"
+                [chartType]="mixedBarChartType">
+            </canvas>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-2 mb-3">
+    <h5>Student Details</h5>
+    <div  class='row'>
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Roll</th>
+                    <th scope="col">Overall Attentiveness</th>
+                    <th scope="col">Overall Performance</th>
+                    <th scope="col">View Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tablehover"  *ngFor="let stud of classDetail?.student_list; let i = index">
+                    <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                    <td class="tablecell"> {{ stud.student_name }} </td>
+                    <td class="tablecell">{{ stud.roll_number }}</td>
+                    <td class="tablecell">{{ stud.attentiveness }}</td>
+                    <td class="tablecell">{{ stud.performance }}</td>
+                    <td class="tablecell">
+                        <button class="btn btn-primary"  (click)="getStudentData(stud,content)">
+                            Detail
+                        </button>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <ng-template #content let-modal>
+        <div class="modal-header">
+        <h4 class="modal-title">Student Name: {{studentDetail?.summary.student_name}} / Roll : {{studentDetail?.summary.roll_number}}</h4>
+            
+        </div>
+        <em>Parent's Number : {{studentDetail?.summary.parent_mob_no}}</em>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12 col-md-6" >
+                    <div class="chart-wrapper">
+                        <canvas baseChart
+                        [datasets]="radarChartData"
+                        [options]="radarChartOptions"
+                        [labels]="radarChartLabels"
+                        [chartType]="radarChartType">
+                    </canvas>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6" >
+                    <div class="chart-wrapper">
+                        <canvas baseChart 
+                        [datasets]="mixedBarChartData2"
+                        [labels]="mixedBarChartLabels2"
+                        [options]="mixedBarChartOptions2"
+                        [plugins]="mixedBarChartPlugins2"
+                        [legend]="mixedBarChartLegend2"
+                        [chartType]="mixedBarChartType2">
+                    </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button"  class="btn btn-danger" (click)="cancelModal(modal)">Close</button>
+        </div>
+    </ng-template>
+</div>
+
+
+<div *ngIf="type_=='teacher'">
+    <h3>Overall Summary</h3>
+    
+    
+    <div class="row">
+        <div class="col-12 col-md-10 col-lg-8" >
+            <div class="chart-wrapper">
+                <canvas baseChart 
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [plugins]="barChartPlugins"
+                [legend]="barChartLegend"
+                [chartType]="barChartType">
+            </canvas>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-2 mb-3">
+    
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <h5>Student Details</h5>
+        </div>
+        <div class="col-6 col-md-4">
+            <label>Select Class</label>
+            <select (change)="getSubjectDetail()" style="float: center;" name="select" id="select" [(ngModel)]="subject_id">
+                <option [selected]="subject_id==sub.subject_id" *ngFor="let sub of subjectsSummary?.performance_list" [value]="sub.subject_id">{{sub?.subject_name}}/({{sub?.class_name}} - {{sub?.section}})</option>
+            </select>
+        </div>
+        
+    </div>
+    <div  class='row'>
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Roll</th>
+                    <th scope="col">Average Performance</th>
+                    <th scope="col">View Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tablehover"  *ngFor="let stud of subjectDetail?.student_list; let i = index">
+                    <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                    <td class="tablecell"> {{ stud.student_name }} </td>
+                    <td class="tablecell">{{ stud.roll_number }}</td>
+                    <td class="tablecell">{{ stud.average_performance }}</td>
+                    <td class="tablecell">
+                        <button class="btn btn-primary"  (click)="show_detail_for_student(stud,content2)">
+                            Detail
+                        </button>
+                    </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <ng-template #content2 let-modal2>
+        <div class="modal-header">
+        <h4 class="modal-title">Student Name: {{selected_student?.student_name}} / Roll : {{selected_student?.roll_number}}</h4>
+        </div>
+        <em>Parent's Number : {{studentDetail?.summary.parent_mob_no}}</em>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12 col-md-10 col-lg-8" >
+                    <div class="chart-wrapper">
+                        <canvas baseChart 
+                        [datasets]="barChartData2"
+                        [labels]="barChartLabels2"
+                        [options]="barChartOptions2"
+                        [plugins]="barChartPlugins2"
+                        [legend]="barChartLegend2"
+                        [chartType]="barChartType2">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button"  class="btn btn-danger" (click)="cancelModal(modal2)">Close</button>
+        </div>
+    </ng-template>
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<div *ngIf="type_=='teacher'">
+    <div class="row">
+        <div class="col-6 col-md-6">
+            Ongoing Subject: <strong> {{dashBoardData?.subject_name}}</strong>
+        </div>
+        <div class="col-6 col-md-6">
+            <button class="btn btn-primary" [disabled]="dashBoardData['subject_link']==''" (click)="openClass()">
+                Join
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <h5>Your Subject List</h5>
+    </div>
+    <div  class='row'>
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Subject Name</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Section</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tablehover"  *ngFor="let sub_ of subjectList; let i = index">
+                    <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                    <td class="tablecell"> {{ sub_.subject_name }} </td>
+                    <td class="tablecell">{{ sub_.class_name  }}</td>
+                    <td class="tablecell">{{ sub_.section  }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+-->
+
+<!--
+
+<div *ngIf="type_=='class_teacher'">
+    <div class="form-group form-inline">
+        Student Name: <input class="form-control ml-2" [(ngModel)]="filter" type="text" (input)="filterClass()"/>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-4">
+            <label>
+                Class Strength : {{dashBoardData?.summary['class_strength']}}
+            </label>
+        </div>
+        <div class="col-md-4 col-4">
+            <label>
+                Today's Attendence : {{dashBoardData?.summary['attendence_today']}}
+            </label>
+        </div>
+        <div class="col-md-4 col-4">
+            <label>
+                Total Working Days : {{dashBoardData?.summary['total_working_days']}}
+            </label>
+        </div>
+    </div>
+    <div  class='row'>
+        <div class="col-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Roll</th>
+                    <th scope="col">Present Today</th>
+                    <th scope="col">Total Attendence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="tablehover"  *ngFor="let student_ of studentListFilter; let i = index">
+                    <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                    <td class="tablecell"> {{ student_.student_name }} </td>
+                    <td class="tablecell">{{ student_.roll_number  }}</td>
+                    <td class="tablecell">{{ student_.present_today  }}</td>
+                    <td class="tablecell">{{ student_.cumulative_attendence  }}</td>
+    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+-->

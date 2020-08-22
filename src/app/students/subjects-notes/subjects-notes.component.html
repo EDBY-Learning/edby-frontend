@@ -1,0 +1,29 @@
+<h5>Notes for Class {{class_name}} - {{section}}</h5>
+
+<hr class="mt-2 mb-3">
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Notes Name</th>
+                <th scope="col">Upload Time</th>
+                <th scope="col">File</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let note of notesList; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ note.notes_name }} </td>
+                <td class="tablecell">{{ note.publish_time |date:'short'  }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary" [disabled]="note.notes_file==''" (click)="downloadFile(note)">
+                        Download 
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

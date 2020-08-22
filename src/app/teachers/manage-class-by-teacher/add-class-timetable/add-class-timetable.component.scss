@@ -1,0 +1,15 @@
+.my-custom-class {
+    background-color: darkgreen;
+    font-size: 125%;
+  }
+  .my-custom-class .arrow::before {
+    border-top-color: darkgreen;
+  }
+
+input[type="text"]:disabled{
+    background-color:#79947a;
+}
+
+em { float: right; color: #e05c65; padding-left: 10px; }
+.error input { background-color: #e3c3e5; }
+.error ::-webkit-input-placeholder { color: #999; }

@@ -1,0 +1,26 @@
+<div class="row">
+    <div  class="col-12 col-sm-3 col-md-1">
+        <button (click)="goTosubjects()" class="btn btn-warning">
+            <i class="fas fa-backward"></i>
+        </button>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <a [ngClass]="selectedBarExam==0? 'active':''"  (click)="setSelection(0)" class="list-group-item list-group-item-action list-group-item-success">
+            View Upcoming Exam
+        </a>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <a [ngClass]="selectedBarExam==1? 'active':''"  (click)="setSelection(1)" class="list-group-item list-group-item-action list-group-item-danger">
+            View Ongoing Exam
+        </a> 
+    </div>
+</div>
+<hr>
+
+<div *ngIf="selectedBarExam==0">
+    <app-view-uncoming-quiz></app-view-uncoming-quiz>
+</div>
+
+<div *ngIf="selectedBarExam==1">
+    <app-view-published-quiz></app-view-published-quiz>
+</div>

@@ -1,0 +1,130 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 pb-5">
+            <form class="row" [formGroup]="profileForm" (ngSubmit)="OnSubmit()">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <em *ngIf="profileForm.controls.name?.invalid && (profileForm.controls.name?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="name" formControlName="name" placeholder="First Name">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Your Email</label>
+                        <em *ngIf="profileForm.controls.email?.invalid && (profileForm.controls.email?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="email" formControlName="email" placeholder="Email">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" [ngClass]="{'error': profileForm.controls.mob_no?.invalid && profileForm.controls.mob_no?.dirty}">
+                        <label>Mobile Number</label>
+                        <em *ngIf="profileForm.controls.mob_no?.invalid && (profileForm.controls.mob_no?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="mob_no" formControlName="mob_no"  placeholder="Mobile Number">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group" [ngClass]="{'error': profileForm.controls.parent_mob_no_1?.invalid && profileForm.controls.parent_mob_no_1?.dirty}">
+                        <label>Parent Mobile Number 1</label>
+                        <em *ngIf="profileForm.controls.parent_mob_no_1?.invalid && (profileForm.controls.parent_mob_no_1?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="parent_mob_no_1" formControlName="parent_mob_no_1"  placeholder="Mobile Number 1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" [ngClass]="{'error': profileForm.controls.parent_mob_no_2?.invalid && profileForm.controls.parent_mob_no_2?.dirty}">
+                        <label>Parent Mobile Number 2</label>
+                        <em *ngIf="profileForm.controls.parent_mob_no_2?.invalid && (profileForm.controls.parent_mob_no_2?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="parent_mob_no_2" formControlName="parent_mob_no_2"  placeholder="Mobile Number 2">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Parent Email</label>
+                        <em *ngIf="profileForm.controls.parent_email?.invalid && (profileForm.controls.parent_email?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="parent_email" formControlName="parent_email">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Class</label>
+                        <em *ngIf="profileForm.controls.class_name?.invalid && (profileForm.controls.class_name?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="class_name" formControlName="class_name" placeholder="Class">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Section</label>
+                        <em *ngIf="profileForm.controls.section?.invalid && (profileForm.controls.section?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="section" formControlName="section">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Class Teacher</label>
+                        <em *ngIf="profileForm.controls.class_teacher?.invalid && (profileForm.controls.class_teacher?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="class_teacher" formControlName="class_teacher" placeholder="Class Teacher">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>School</label>
+                        <em *ngIf="profileForm.controls.school?.invalid && (profileForm.controls.school?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="school" formControlName="school">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Address</label>
+                        <em *ngIf="profileForm.controls.addr?.invalid && (profileForm.controls.addr?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="addr" formControlName="addr" placeholder="Address">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>City</label>
+                        <em *ngIf="profileForm.controls.city?.invalid && (profileForm.controls.city?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="city" formControlName="city" placeholder="City">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>State</label>
+                        <em *ngIf="profileForm.controls.state?.invalid && (profileForm.controls.state?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="state" formControlName="state" placeholder="State">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Nation</label>
+                        <em *ngIf="profileForm.controls.nation?.invalid && (profileForm.controls.nation?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="nation" formControlName="nation" placeholder="Nation">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <em *ngIf="profileForm.controls.pincode?.invalid && (profileForm.controls.pincode?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="pincode" formControlName="pincode" placeholder="Pincode">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <hr class="mt-2 mb-3">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <button  [disabled]="!profileForm.valid || !profileForm.dirty" type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-12 col-md-12">
+                <hr class="mt-2 mb-3">
+                <label><strong>Click to Change Password</strong></label>
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <change-password></change-password>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

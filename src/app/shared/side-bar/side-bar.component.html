@@ -1,0 +1,35 @@
+<!--
+<div class="sidebar">
+    <div class="d-inline-flex sidebar-wrapper" id="wrapper" >
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            
+            <div class="list-group list-group-flush">
+                <span *ngFor="let i of sideBarContent">
+                    <a class="list-group-item list-group-item-action bg-light text-center" (click)="naviagteTo(i[1])" >
+                        {{i[0]}}
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+<span *ngFor="let i of sideBarContent">
+    <a (click)="naviagteTo(i[1])" >
+        {{i[0]}}
+    </a>
+</span>
+<!--Do not remove it-->
+<span >
+    <a>
+    </a>
+</span>
+<span >
+    <a>
+    </a>
+</span>
+<span >
+    <a>
+    </a>
+</span>

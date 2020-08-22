@@ -1,0 +1,221 @@
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+        <a (click)="goback()" class="list-group-item list-group-item-action list-group-item-warning">
+            Go To Manage Exam
+        </a>
+    </div> 
+    <div class="col-12 col-sm-6 col-md-4">
+        <a *ngIf="!selectedQuiz?.quiz_summary?.is_published" (click)="editPaper()" class="list-group-item list-group-item-action list-group-item-danger">
+            Edit Question Paper
+        </a>
+    </div> 
+</div>
+<hr>
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-4">
+        <strong> Exam Type:</strong> {{selectedQuiz?.quiz_summary?.quiz_type}}
+    </div>
+    <div class="col-12 col-sm-6 col-md-4">
+        <strong>Exam Name:</strong> {{selectedQuiz?.quiz_summary?.quiz_heading}}
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <strong>Duration:</strong> {{selectedQuiz?.quiz_summary?.duration | formatTime}}
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <strong>Exam Date:</strong> {{selectedQuiz?.quiz_summary?.start_dt | date}}
+    </div>
+    <div  class="col-12 col-sm-6 col-md-4">
+        <strong>Normalized Marks:</strong> {{selectedQuiz?.quiz_summary?.normalized_marks}}
+    </div>
+</div>
+<hr>
+<ngb-pagination [collectionSize]="selectedQuiz?.question_list?.length*10" [(page)]="question_number" [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+    <ng-template ngbPaginationPrevious>Prev</ng-template>
+    <ng-template ngbPaginationNext>Next</ng-template>
+    <!--<ng-template ngbPaginationNumber let-p>  p ({{ getQuestionType(p) }})</ng-template>-->
+</ngb-pagination>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='scq'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : {{selectedQuiz?.question_list[question_number-1].number}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : {{selectedQuiz?.question_list[question_number-1].marks}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+       <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].question_text}}</p>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            Option A : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[0].option_text}}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            Option B : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[1].option_text}}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            Option C : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[2].option_text}}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            Option D : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[3].option_text}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer : </label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            {{selectedQuiz?.question_list[question_number-1].answer_list[0]}}
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='mcq'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : {{selectedQuiz?.question_list[question_number-1].number}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : {{selectedQuiz?.question_list[question_number-1].marks}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+       <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].question_text}}</p>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            Option A : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[0].option_text}}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            Option B : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[1].option_text}}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            Option C : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[2].option_text}}</p>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6">
+            Option D : <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].option_list[3].option_text}}</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer : </label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            {{selectedQuiz?.question_list[question_number-1].answer_list}}
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='T/F'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : {{selectedQuiz?.question_list[question_number-1].number}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : {{selectedQuiz?.question_list[question_number-1].marks}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+       <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].question_text}}</p>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div> 
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer : </label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            {{selectedQuiz?.question_list[question_number-1].answer_list[0]}}
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='Fill'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : {{selectedQuiz?.question_list[question_number-1].number}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : {{selectedQuiz?.question_list[question_number-1].marks}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+       <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].question_text}}</p>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div> 
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer : </label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            {{selectedQuiz?.question_list[question_number-1].answer_list[0]}}
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedQuiz?.question_list?.length && selectedQuiz?.question_list[question_number-1].question_type=='Detail'">
+    
+    <div class="row">
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques No. : {{selectedQuiz?.question_list[question_number-1].number}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Ques Type : {{selectedQuiz?.question_list[question_number-1].question_type}}
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+            Marks : {{selectedQuiz?.question_list[question_number-1].marks}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+       <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].question_text}}</p>
+    </div>
+    <div *ngIf="selectedQuiz?.question_list[question_number-1].question_file_link!=''" class="row">
+        <img style="max-width:100%; min-width:700px" src="{{selectedQuiz?.question_list[question_number-1].question_file_link}}" />
+    </div> 
+    <hr>
+    <div class="row">
+        <div class="col-6 col-sm-6 col-md-6">
+            <label>Answer : </label>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6">
+            <p style="font-weight: bold;">{{selectedQuiz?.question_list[question_number-1].answer_list[0]}}</p>
+        </div>
+    </div>
+</div>

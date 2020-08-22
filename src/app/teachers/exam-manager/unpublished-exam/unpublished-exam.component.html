@@ -1,0 +1,51 @@
+
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Exam Type</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Normalized Marks</th>
+                <th scope="col">Date</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+                <th scope="col">View</th>
+                <th scope="col">Publish</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let quiz of unpublishedQuiz; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ quiz.quiz_heading }} </td>
+                <td class="tablecell">{{ quiz.quiz_type }}</td>
+                <td class="tablecell">{{ quiz.duration | formatTime}}</td>
+                <td class="tablecell">{{ quiz.normalized_marks  }}</td>
+                <td class="tablecell">{{ quiz.start_dt | date:'short' }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary"  (click)="editQuiz(quiz)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary"  (click)="deleteQuiz(quiz,i)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary"  (click)="viewQuiz(quiz)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </td>
+                <td class="tablecell">
+                    <button class="btn btn-primary" (click)="publishQuiz(quiz,i)">
+                        <i class="fa fa-upload"></i>
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

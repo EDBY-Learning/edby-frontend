@@ -1,0 +1,37 @@
+
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Exam Type</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Normalized Marks</th>
+                <th scope="col">Date</th>
+                <th scope="col">Start/View Quiz</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let quiz of publishedQuiz; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ quiz.quiz_summary.quiz_heading }} </td>
+                <td class="tablecell">{{ quiz.quiz_summary.quiz_type }}</td>
+                <td class="tablecell">{{ quiz.quiz_summary.duration | formatTime}}</td>
+                <td class="tablecell">{{ quiz.quiz_summary.normalized_marks  }}</td>
+                <td class="tablecell">{{ quiz.quiz_summary.start_dt | date:'short' }}</td>
+                <td class="tablecell">
+                    <button *ngIf="quiz.quiz_summary.is_submitted" class="btn btn-secondary" (click)="viewTest(quiz)">
+                        View Paper
+                    </button>
+                    <button *ngIf="!quiz.quiz_summary.is_submitted" class="btn btn-primary" (click)="startTest(quiz)">
+                        Take Test
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>

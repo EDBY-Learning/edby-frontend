@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h2>Class Test for class {{class_name}} - {{section}}</h2>
+                
+                <form  class="col s12 white"  [formGroup]="classTestForm" (ngSubmit)="OnSubmit()">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Assignment Name</label>
+                                <em *ngIf="classTestForm.controls.class_test_name?.invalid && (classTestForm.controls.class_test_name?.touched)">Required</em>
+                                <input class="form-control validate" type="text" name="class_test_name" formControlName="class_test_name" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <em *ngIf="classTestForm.controls.description?.invalid && (classTestForm.controls.description?.touched)">Required</em>
+                                <textarea class="form-control validate" type="text" name="description" formControlName="description" placeholder="Description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Test Time</label>
+                                <em *ngIf="classTestForm.controls.start_time?.invalid && (classTestForm.controls.start_time?.touched)">Required/Wrong Format(dd/mm/yyyy HH:MM PM)</em>
+                                <input class="form-control validate" type="datetime-local"  name="start_time" formControlName="start_time" placeholder="dd/mm/yyyy HH:MM PM">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Duration(In Minutes)</label>
+                                <em *ngIf="classTestForm.controls.duration?.invalid && (classTestForm.controls.duration?.touched)">Required</em>
+                                <input class="form-control validate" type="number"  name="duration" formControlName="duration" placeholder="In minutes">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>File</label>
+                                <em *ngIf="classTestForm.controls.file?.invalid && (classTestForm.controls.file?.touched)">Required</em>
+                                <input class="form-control custom-file-input validate" id="validatedCustomFile" type="file" name="file" (change)="handleFileInput($event.target.files)" formControlName="file">
+                                <label *ngIf="!fileSelected" class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                <label *ngIf="fileSelected" class="custom-file-label" for="validatedCustomFile">{{fileSelected}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Submission Window(In Minutes)</label>
+                                <em *ngIf="classTestForm.controls.buffer_time?.invalid && (classTestForm.controls.buffer_time?.touched)">Required</em>
+                                <input class="form-control validate" type="number" name="buffer_time" formControlName="buffer_time" placeholder="In Minutes">
+                            </div>
+                        </div>
+                        <div class="col">    
+                            <div class="form-group">
+                                <label>Full Marks</label>
+                                <em *ngIf="classTestForm.controls.maximum_marks?.invalid && (classTestForm.controls.maximum_marks?.touched)">Required</em>
+                                <input class="form-control validate" type="number" name="maximum_marks" formControlName="maximum_marks" placeholder="Class">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button [disabled]="!classTestForm.valid || !classTestForm.dirty" type="submit" class="btn btn-primary">Create Class Test</button>
+                        </div>
+                    </div>
+
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>

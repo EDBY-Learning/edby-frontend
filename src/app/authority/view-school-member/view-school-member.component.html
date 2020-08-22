@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-12 col-md-4">
+            <a [ngClass]="selectedbar==0? 'active':''"  (click)="setSelection(0)" class="list-group-item list-group-item-action list-group-item-warning">
+                View Authorities
+            </a>
+    </div>
+    <div class="col-12 col-md-4">
+            <a [ngClass]="selectedbar==1? 'active':''"  (click)="setSelection(1)" class="list-group-item list-group-item-action list-group-item-danger">
+                View Teachers
+            </a> 
+    </div>
+    <div  class="col-12 col-md-4">
+            <a [ngClass]="selectedbar==2? 'active':''" (click)="setSelection(2)" class="list-group-item list-group-item-action list-group-item-success">
+                View Students
+            </a> 
+    </div>
+</div>
+<hr>
+
+<div class="content" *ngIf="selectedbar==0">
+    <app-authority-list></app-authority-list>
+</div>
+
+<div class="content" *ngIf="selectedbar==1">
+    <app-teacher-list></app-teacher-list>
+</div>
+
+<div class="content" *ngIf="selectedbar==2">
+    <app-student-list></app-student-list>
+</div>
+

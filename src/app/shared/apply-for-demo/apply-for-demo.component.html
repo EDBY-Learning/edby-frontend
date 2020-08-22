@@ -1,0 +1,62 @@
+<div class="container register">
+    <div class="row">
+      <div class="col-md-3 register-left"> <!--<img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />-->
+        <h3>Welcome</h3>
+        <p>Tranform Your learning experience with Technology</p>
+        <button (click)="goToLogin()"  class="custom-button">Login</button>
+      </div>
+      
+      <div class="col-md-9 error-template register-right">
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <h3 class="register-heading">Register Your Insititute For Free Demo</h3>
+            <form class="well form-horizontal s12 white" id="contact_form" [formGroup]="applicationForm" (ngSubmit)="OnSubmit()">
+            <div class="row register-form">
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <em *ngIf="applicationForm.controls.name?.invalid && (applicationForm.controls.name?.touched)">Required</em>
+                  <input class="form-control validate" type="text" name="name" formControlName="name" placeholder="Your Name *"/> 
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <em *ngIf="applicationForm.controls.mob_no?.invalid && (applicationForm.controls.mob_no?.touched)">Required</em>
+                  <input class="form-control validate" type="text" name="mob_no" formControlName="mob_no" placeholder="Contact Number *"/>
+              </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <em *ngIf="applicationForm.controls.institute_name?.invalid && (applicationForm.controls.institute_name?.touched)">Required</em>
+                  <input class="form-control validate" type="text" name="institute_name" formControlName="institute_name" placeholder="Insititute Name *"/> 
+               </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <em *ngIf="applicationForm.controls.email?.invalid && (applicationForm.controls.email?.touched)">Required</em>
+                  <input class="form-control validate" type="text" name="email" formControlName="email" placeholder="Contact Email *"/>
+              </div>
+              </div>
+            
+              <div class="col-md-6">
+                <div class="form-group">
+                  <em *ngIf="applicationForm.controls.designation?.invalid && (applicationForm.controls.designation?.touched)">Required</em>
+                  <input class="form-control validate" type="text" name="designation" formControlName="designation" placeholder="Designation *"/>
+              </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                    <em *ngIf="applicationForm.controls.institute_type?.invalid && (applicationForm.controls.institute_type?.touched)">Required</em>
+                    <input class="form-control validate" type="text" name="institute_type" formControlName="institute_type" placeholder="Insititute Type *"/>
+                </div>
+
+                
+                
+                <button [disabled]="!applicationForm.valid" type="submit" class="btn btnRegister">Register</button>
+                </div>
+            </div>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>

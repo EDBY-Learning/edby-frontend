@@ -1,0 +1,63 @@
+<!--<div *ngIf="loading else loaded">
+    loading ...
+</div>
+
+<ng-template #loaded>
+
+</ng-template>-->
+<h5>Upload Notes for Class {{class_name}} - {{section}}</h5>
+<div class="row">
+    <div  class="col-6 col-sm-4 col-md-4">
+        <button (click)="goback()" class="btn btn-warning">
+            <i class="fas fa-backward"></i>
+        </button>
+    </div>
+    <div  class="col-6 col-sm-4 col-md-4">
+            <button [disabled]="!hasFileSelected" class="btn btn-primary" (click)="submitNotes()">
+                <i class="fas fa-upload"></i>
+            </button>
+    </div>
+</div>
+<ngb-alert *ngIf="staticAlert" (close)="staticAlert = false">{{staticAlertError}}</ngb-alert>
+<hr class="mt-2 mb-3">
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-6">
+        <label>Name*</label>
+        <input [(ngModel)]="notes_name" type="text"  style="text-align:center;" placeholder="Name"/>
+    </div>
+    <div class="col-12 col-sm-12 col-md-6">
+        <input style="border:2px solid black" type="file" id="file" (change)="handleFileInput($event.target.files)" placeholder="Upload File">
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 flex-container">
+        <label>Description</label>
+        <textarea  [(ngModel)]="description" class="fill-width" type="text" rows="3" placeholder="Description"></textarea>
+    </div>
+</div>
+
+<hr class="mt-2 mb-3">
+<div  class='row'>
+    <div class="col-12 table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Notes Name</th>
+                <th scope="col">Upload Time</th>
+                <th scope="col">File</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tablehover"  *ngFor="let note of notesList; let i = index">
+                <th class="tablecell" scope="row">{{ i + 1 }}</th>
+                <td class="tablecell"> {{ note.notes_name }} </td>
+                <td class="tablecell">{{ note.publish_time |date:'short'  }}</td>
+                <td class="tablecell">
+                    <button class="btn btn-secondary" [disabled]="note.notes_file==''" (click)="downloadFile(note)">
+                        Download 
+                    </button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

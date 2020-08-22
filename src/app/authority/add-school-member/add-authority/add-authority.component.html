@@ -1,0 +1,153 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h2 *ngIf="authorityData">Update details for a Authority</h2>
+                <h2 *ngIf="!authorityData">Fill details for a New Authority</h2>
+                <br>
+                <form  class="col s12 white"  [formGroup]="authorityForm" (ngSubmit)="OnSubmit()">
+                    <div class="form-group">
+                        <label class="required-input">Name*</label>
+                        <em *ngIf="authorityForm.controls.name?.invalid && (authorityForm.controls.name?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="name" formControlName="name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label class="required-input">Email*</label>
+                        <em *ngIf="authorityForm.controls.email?.invalid && (authorityForm.controls.email?.touched)">Required(abc@xyz.com)</em>
+                        <input class="form-control validate" type="text" name="email" formControlName="email" placeholder="Email">
+                    </div>
+                    <div class="form-group" [ngClass]="{'error': authorityForm.controls.mob_no?.invalid && authorityForm.controls.mob_no?.dirty}">
+                        <label class="required-input">Mobile Number*</label>
+                        <em *ngIf="authorityForm.controls.mob_no?.invalid && (authorityForm.controls.mob_no?.touched)">Required(10 digit number)</em>
+                        <input class="form-control validate" type="mob_no" name="mob_no" formControlName="mob_no"  placeholder="Mobile Number">
+                    </div>
+                    <div class="form-group">
+                        <label class="required-input">Designation*</label>
+                        <em *ngIf="authorityForm.controls.designation?.invalid && (authorityForm.controls.designation?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="designation" formControlName="designation" placeholder="Designation">
+                    </div>
+                    <div hidden class="form-group">
+                        <label>Power*</label>
+                        <em *ngIf="authorityForm.controls.power_level?.invalid && (authorityForm.controls.power_level?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="power_level" formControlName="power_level">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <em *ngIf="authorityForm.controls.addr?.invalid && (authorityForm.controls.addr?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="addr" formControlName="addr" placeholder="Address">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <em *ngIf="authorityForm.controls.city?.invalid && (authorityForm.controls.city?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="city" formControlName="city" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label>State</label>
+                        <em *ngIf="authorityForm.controls.state?.invalid && (authorityForm.controls.state?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="state" formControlName="state" placeholder="State">
+                    </div>
+                    <div class="form-group">
+                        <label>Nation</label>
+                        <em *ngIf="authorityForm.controls.nation?.invalid && (authorityForm.controls.nation?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="nation" formControlName="nation" placeholder="Nation">
+                    </div>
+                    <div class="form-group">
+                        <label>Pincode</label>
+                        <em *ngIf="authorityForm.controls.pincode?.invalid && (authorityForm.controls.pincode?.touched)">Required</em>
+                        <input class="form-control validate" type="text" name="pincode" formControlName="pincode" placeholder="Pincode">
+                    </div>
+                    
+
+                    <div class="row">
+                        
+                        <div class="col-md-6 col-6">
+                            <button *ngIf="authorityData" [disabled]="!authorityForm.valid || !authorityForm.dirty" type="submit" class="btn btn-primary">Update</button>
+                            <button *ngIf="!authorityData" [disabled]="!authorityForm.valid || !authorityForm.dirty" type="submit" class="btn btn-primary">Create Authority</button>
+                        </div>
+                    </div>
+
+                </form>
+                <div class="row">
+                    <div class="col-md-6 col-6">
+                    </div>
+                    <div class="col-md-6 col-6">
+                        <button *ngIf="!authorityData" [disabled]="!authorityForm.dirty" (click)="resetForm()" class="btn btn-danger">Reset</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="container register">
+    <div class="row">
+        <div class="col-12 col-md-12 error-template register-right">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h2 *ngIf="authorityData">Update details for a Authority</h2>
+                    <h2 *ngIf="!authorityData">Fill details for a New Authority</h2>
+                    <form class="well form-horizontal s12 white" id="contact_form" [formGroup]="authorityForm" (ngSubmit)="OnSubmit()">
+                        <div class="row register-form">
+                            <div class="col-6 col-md-6">
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.name?.invalid && (authorityForm.controls.name?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="name" formControlName="name" placeholder="Name *"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.mob_no?.invalid && (authorityForm.controls.mob_no?.touched)">Required(10 digit Number)</em>
+                                    <input class="form-control validate" type="mob_no" name="mob_no" formControlName="mob_no" placeholder="Mobile Number *"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.power_level?.invalid && (authorityForm.controls.power_level?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="power_level" formControlName="power_level" placeholder="Power *"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.city?.invalid && (authorityForm.controls.city?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="city" formControlName="city" placeholder="City"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.nation?.invalid && (authorityForm.controls.nation?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="nation" formControlName="nation" placeholder="Nation"> 
+                                </div>
+                                
+                            </div>
+                            <div class="col-6 col-md-6">
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.email?.invalid && (authorityForm.controls.email?.touched)">Required(abc@xyz.com)</em>
+                                    <input class="form-control validate" type="text" name="email" formControlName="email" placeholder="Email *"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.designation?.invalid && (authorityForm.controls.designation?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="designation" formControlName="designation" placeholder="Designation *"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.addr?.invalid && (authorityForm.controls.addr?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="addr" formControlName="addr" placeholder="Address"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.state?.invalid && (authorityForm.controls.state?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="state" formControlName="state" placeholder="State"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <em *ngIf="authorityForm.controls.pincode?.invalid && (authorityForm.controls.pincode?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="pincode" formControlName="pincode" placeholder="Pincode"> 
+                                </div>
+                                <div class="form-group"> 
+                                    <button *ngIf="authorityData" [disabled]="!authorityForm.valid || !authorityForm.dirty" type="submit" class="btn btn-primary">Update</button>
+                                    <button *ngIf="!authorityData" [disabled]="!authorityForm.valid || !authorityForm.dirty" type="submit" class="btn btn-primary">Create Authority</button> 
+                                </div>
+                                <div class="form-group">
+                                    <button *ngIf="!authorityData" (click)="resetForm()" class="btn btn-primary">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+-->

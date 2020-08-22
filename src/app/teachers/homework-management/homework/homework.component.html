@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h2>Homework for class {{class_name}} - {{section}}</h2>
+                <br>
+                <form  class="col s12 white"  [formGroup]="homeworkForm" (ngSubmit)="OnSubmit()">
+                    <div class="row">
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Assignment Name</label>
+                                <em *ngIf="homeworkForm.controls.homework_name?.invalid && (homeworkForm.controls.homework_name?.touched)">Required</em>
+                                <input class="form-control validate" type="text" name="homework_name" formControlName="homework_name" placeholder="Name">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <em *ngIf="homeworkForm.controls.description?.invalid && (homeworkForm.controls.description?.touched)">Required</em>
+                                <textarea class="form-control validate" type="text" name="description" formControlName="description" placeholder="Description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <em *ngIf="homeworkForm.controls.start_time?.invalid && (homeworkForm.controls.start_time?.touched)">Required</em>
+                                <input class="form-control validate" type="datetime-local"  name="start_time" formControlName="start_time">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Due Date</label>
+                                <em *ngIf="homeworkForm.controls.end_time?.invalid && (homeworkForm.controls.end_time?.touched)">Required</em>
+                                <input class="form-control validate" type="datetime-local"  name="end_time" formControlName="end_time">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-12 sol-md-12 col-12 col-lg-12">
+                            <div class="form-group">
+                                <label>File</label>
+                                <em *ngIf="homeworkForm.controls.file?.invalid && (homeworkForm.controls.file?.touched)">Required</em>
+                                <input class="form-control custom-file-input validate" id="validatedCustomFile" type="file" name="file" (change)="handleFileInput($event.target.files)" formControlName="file">
+                                <label *ngIf="!fileSelected" class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                                <label *ngIf="fileSelected" class="custom-file-label" for="validatedCustomFile">{{fileSelected}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <div class="form-group">
+                                <label>Is this Homework Graded</label>
+                                <em *ngIf="homeworkForm.controls.is_graded?.invalid && (homeworkForm.controls.is_graded?.touched)">Required</em>
+                                <div class="row">
+                                    <input class="form-control validate" type="radio" value="True" name="is_graded" formControlName="is_graded" > Yes
+                                    <input class="form-control validate" type="radio" value="False" name="is_graded" formControlName="is_graded" > No
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 sol-md-6 col-12 col-lg-6">
+                            <span *ngIf="homeworkForm.controls.is_graded.value=='True'">
+                                <div class="form-group">
+                                    <label>Full Marks</label>
+                                    <em *ngIf="homeworkForm.controls.maximum_marks?.invalid && (homeworkForm.controls.maximum_marks?.touched)">Required</em>
+                                    <input class="form-control validate" type="text" name="maximum_marks" formControlName="maximum_marks" placeholder="Class">
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button [disabled]="!homeworkForm.valid || !homeworkForm.dirty" type="submit" class="btn btn-primary">Create Homework</button>
+                        </div>
+                    </div>
+
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
